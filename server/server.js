@@ -7,7 +7,7 @@ var{mongoose} = require('./db/mongoose');
 
 var{Todo} = require ('./models/todo');
 
-var{User} = require ('./models/User');
+var{User} = require ('./models/user');
 
 const {ObjectID}= require ('mongodb');
 
