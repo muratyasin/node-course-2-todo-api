@@ -13,6 +13,8 @@ var{Todo} = require ('./models/todo');
 
 var{User} = require ('./models/user');
 
+var {authenticate} = require ('./middleware/authenticate');
+
 const {ObjectID}= require ('mongodb');
 
 
@@ -119,12 +121,31 @@ app.post('/users',(req,res)=>{
   user.save().then(()=>{
     return user.generateAuthToken();
   }).then((token)=>{
+    console.log('Gelen token:', token);
     res.header('x-auth',token).send(user);
   }).catch((e)=>{
       res.status(400).send(e);
   });
 
 });
+
+
+app.get('/users/me',authenticate, (req,res)=>{
+
+  res.send(req.user);
+  //var token = req.header('x-auth');
+
+  // User.findByToken(token).then((user)=>{
+  //   if (!user){
+  //     return Promise.reject();
+  //       //res.status(401).send();
+  //   }
+  //   res.send(user);
+  // }).catch((e)=>{
+  //   res.status(401).send();
+  // });
+
+})
 
 
 app.listen(port, ()=>{
